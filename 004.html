@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D3</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Noto Sans KR', HelveticaNeue-Light, AppleSDGothicNeo-Light, "segoe ui", "malgun gothic", '맑은 고딕', "microsoft neogothic", arial, sans-serif;
+    font-size: 13px;
+    margin-top: 20px;
+  }
+
+  .svg {
+    width: 100vw;
+    height: 400px;
+    border: 1px solid lightgray;
+  }
+
+  ul.title {
+    font-size: 1.75em;
+    color: #1f5fae;
+    list-style-type: none;
+    margin-bottom: 8px;
+    padding: 0;
+  }
+
+  ul.title li {
+    display: inline-block;
+  }
+
+  ul.title li.button {
+    background-color: #ccc;
+    color: white;
+    padding: 0 20px 2px;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+
+  ul.title li.button.selected {
+    background-color: #116BE2;
+  }
+
+  select.year {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #1f5fae;
+    border: none;
+  }
+</style>
+
+<body>
+  <ul class="title">
+    <li>
+      <select class="year" name="" id="">
+        <option>2022</option>
+        <option>2023</option>
+      </select>
+      <span>학년도 학과별 위기학생 : </span>
+    </li>
+    <li class="button selected">
+      비율
+    </li>
+    <li class="button">
+      수
+    </li>
+  </ul>
+  <div style="color: gray; float: right;">
+    <span>비율: 위기학생 수 / 해당 학과 전체 학생 수 </span>
+    <!-- <span>수: 해당 학과별 위기 학생 수</span> -->
+  </div>
+  <svg class="svg">
+  </svg>
+
+  <script>
+    const sampleData = [{ name: '한수진', value: 0.3, dep: '영문과', year: 4 },
+    { name: '김영한', value: 0.8, dep: '국문과', year: 4 },
+    { name: '오연수', value: 0.5, dep: '약학과', year: 3 },
+    { name: '김미연', value: 0.8, dep: '의상과', year: 3 },
+    { name: '이가연', value: 0.1, dep: '의상과', year: 2 },
+    { name: '정민호', value: 0.2, dep: '약학과', year: 2 },
+    { name: '오세희', value: 0.6, dep: '국문과', year: 1 },
+    { name: '고태현', value: 0.8, dep: '영문과', year: 1 },
+    { name: '이가연', value: 0.1, dep: '의상과', year: 2 },
+    { name: '정민호', value: 0.2, dep: '약학과', year: 2 },
+    { name: '오세희', value: 0.8, dep: '국문과', year: 4 },
+    { name: '고태현', value: 0.3, dep: '영문과', year: 1 },
+    { name: '이가연', value: 0.1, dep: '의상과', year: 2 },
+    { name: '정민호', value: 0.2, dep: '약학과', year: 4 },
+    { name: '오세희', value: 0.6, dep: '국문과', year: 1 },
+    { name: '고태현', value: 0.9, dep: '영문과', year: 1 },
+    { name: '김영한', value: 0.8, dep: '국문과', year: 4 },
+    { name: '오연수', value: 0.5, dep: '약학과', year: 3 },
+    { name: '김미연', value: 0.4, dep: '의상과', year: 3 },
+    { name: '이가연', value: 0.1, dep: '의상과', year: 2 },
+    { name: '정민호', value: 0.9, dep: '약학과', year: 2 },
+    { name: '오세희', value: 0.9, dep: '국문과', year: 1 },
+    { name: '고태현', value: 0.3, dep: '영문과', year: 1 },
+    { name: '이가연', value: 0.1, dep: '의상과', year: 2 },
+    { name: '정민호', value: 0.3, dep: '약학과', year: 2 },
+    { name: '오세희', value: 0.2, dep: '국문과', year: 4 },
+    { name: '고태현', value: 0.3, dep: '영문과', year: 1 },
+    { name: '이가연', value: 0.1, dep: '의상과', year: 2 },
+    { name: '정민호', value: 0.1, dep: '약학과', year: 4 },
+    { name: '오세희', value: 0.3, dep: '국문과', year: 1 },
+    { name: '고태현', value: 0.3, dep: '영문과', year: 1 }
+    ];
+
+    const depEnglish = sampleData.filter(x => x.dep == '영문과');
+    const depKorean = sampleData.filter(x => x.dep == '국문과');
+    const depMedicine = sampleData.filter(x => x.dep == '약학과');
+    const depFashion = sampleData.filter(x => x.dep == '의상과');
+
+    const riskRateEnglish = depEnglish.filter(x => x.value >= 0.75).length / depEnglish.length;
+    const riskRateKorean = depKorean.filter(x => x.value >= 0.75).length / depKorean.length;
+    const riskRateMedicine = depMedicine.filter(x => x.value >= 0.75).length / depMedicine.length;
+    const riskRateFashion = depFashion.filter(x => x.value >= 0.75).length / depFashion.length;
+
+    const riskPersonEnglish = depEnglish.filter(x => x.value >= 0.75).length;
+    const riskPersonKorean = depKorean.filter(x => x.value >= 0.75).length;
+    const riskPersonMedicine = depMedicine.filter(x => x.value >= 0.75).length;
+    const riskPersonFashion = depFashion.filter(x => x.value >= 0.75).length;
+
+    const riskRate = [{ name: '영문과', value: riskRateEnglish }, { name: '국문과', value: riskRateKorean }, { name: '약학과', value: riskRateMedicine }, { name: '의상과', value: riskRateFashion }];
+    const riskPerson = [riskPersonEnglish, riskPersonKorean, riskPersonMedicine, riskPersonFashion];
+
+
+    const svg = d3.select('svg');
+    const depNum = 4;
+    const winWidth = window.innerWidth;
+    const space = '\u00a0'
+    let svgHeight = 400;
+    let barWidth = winWidth / depNum - 20;
+
+    const riskRate2 = [{ name: '영문과', value: 0.4 }, { name: '국문과', value: 0.2 }, { name: '약학과', value: 0.3 }, { name: '의상과', value: 0.1 }];
+
+    riskRate.forEach((data, index) => {
+      svg.append('rect')
+        .attr('id', `bar${index}`)
+        .attr('x', (barWidth + 10) * index + 10 + 0.5)
+        .attr('y', 400 - data.value * svgHeight + 0.5)
+        .attr('height', data.value * svgHeight)
+        .attr('width', barWidth)
+        .style('fill', '#c1d9f7')
+        .style('stroke', '#428ae8')
+        .style('stroke-width', 1)
+
+      svg.append('text')
+        .attr('x', (barWidth + 10) * index + 10)
+        .attr('y', 400 - data.value * svgHeight - 4)
+        .text(data.name + space + Math.round(data.value * 100) + '%')
+        .style('font-size', '1em')
+        .attr('text-anchor', 'middle')
+        .attr('transform', `translate(${barWidth/2}, -8)`)
+    });
+    d3.select('#bar1')
+      .transition()
+      .duration(500)
+      .ease(d3.easeLinear)
+      .style('fill', '#f43838')
+      .style('stroke', '#f43838')
+
+    function riskChange() {
+      const allRects = d3.selectAll('rect');
+      const allTexts = d3.selectAll('text');
+      riskRate2.forEach((data, index) => {
+        d3.select(allRects._groups[0][index])
+          .transition()
+          .duration(1000)
+          .ease(d3.easeLinear)
+          .attr('y', 400 - data.value * svgHeight + 0.5)
+          .attr('height', data.value * svgHeight)
+          .style('fill', '#c1d9f7')
+          .style('stroke', '#428ae8')
+        d3.select(allTexts._groups[0][index])
+          .transition()
+          .duration(1000)
+          .ease(d3.easeLinear)
+          .attr('y', 400 - data.value * svgHeight - 4)
+          .text(data.name + space + Math.round(data.value * 100) + '%')
+      })
+      d3.select('#bar0')
+        .transition()
+        .duration(1000)
+        .ease(d3.easeLinear)
+        .style('fill', '#f43838')
+        .style('stroke', '#f43838')
+        .delay(1000)
+    }
+
+    const yearSelctor = document.querySelector('.year');
+    yearSelctor.addEventListener('change', riskChange);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+[
+{"year": 2014, "new":75, "attend":80, "out":5, "absence": 10},
+{"year": 2015, "new":85, "attend":90, "out":4, "absence": 9},
+{"year": 2016, "new":82, "attend":86, "out":5, "absence": 8},
+{"year": 2017, "new":85, "attend":87, "out":5, "absence": 10},
+{"year": 2018, "new":86, "attend":88, "out":5, "absence": 6},
+{"year": 2019, "new":87, "attend":85, "out":5, "absence": 5},
+{"year": 2020, "new":90, "attend":80, "out":7, "absence": 10},
+{"year": 2021, "new":80, "attend":85, "out":5, "absence": 10},
+{"year": 2022, "new":97, "attend":98, "out":1, "absence": 1},
+{"year": 2023, "new":80, "attend":85, "out":0.3, "absence": 0.7}
+]

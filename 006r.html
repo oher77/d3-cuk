@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D3</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Noto Sans KR', HelveticaNeue-Light, AppleSDGothicNeo-Light, "segoe ui", "malgun gothic", '맑은 고딕', "microsoft neogothic", arial, sans-serif;
+    font-size: 13px;
+    margin-top: 20px;
+  }
+
+  .svg {
+    width: 100vw;
+    height: 400px;
+    border: 1px solid lightgray;
+  }
+
+  ul.title {
+    font-size: 1.75em;
+    color: #1f5fae;
+    list-style-type: none;
+    margin-bottom: 8px;
+    padding: 0;
+  }
+
+  ul.title li {
+    display: inline-block;
+  }
+
+  ul.title li.button {
+    background-color: #ccc;
+    color: white;
+    padding: 0 20px 2px;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+
+  ul.title li.button.selected {
+    background-color: #116BE2;
+  }
+
+  select.year {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #1f5fae;
+    border: none;
+  }
+</style>
+
+<body>
+  <ul class="title">
+    <li>
+      <select class="year" name="" id="">
+        <option>2022</option>
+        <option>2023</option>
+      </select>
+      <span>학년도 학과별 위기학생 : </span>
+    </li>
+    <li class="button selected">
+      비율
+    </li>
+    <li class="button">
+      수
+    </li>
+  </ul>
+  <div style="color: gray; float: right;">
+    <span>비율: 위기학생 수 / 해당 학과 전체 학생 수 </span>
+    <!-- <span>수: 해당 학과별 위기 학생 수</span> -->
+  </div>
+  <svg class="svg">
+  </svg>
+
+  <script>
+    const xx = d3.scaleBand()
+      .domain(['a', 'b', 'c', 'd'])
+      .range([0, 200])
+
+
+
+  </script>
+</body>
+
+</html>

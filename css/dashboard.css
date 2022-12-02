@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&family=Noto+Sans+KR&display=swap');
+
+:root {
+  --main-font: 'Noto Sans KR', sans-serif;
+  --number-font: 'Nanum Gothic', sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  font-size: 16px;
+  background-color: #20232a;
+}
+
+h1,
+h2,
+text,
+span,
+p {
+  font-family: var(--main-font);
+  color: #b2b2b2;
+  word-break: keep-all;
+}
+
+h2 {
+  font-size: 1.4em;
+  color: white;
+}
+
+
+.top {
+  background-color: black;
+}
+
+.gray-cell {
+  background-color: #33373e;
+  padding: 20px;
+}
+
+.color1 {
+  color: #dffb46;
+}
+
+.color2 {
+  color: #32faeb;
+}
+
+.color3 {
+  color: #ff92ef;
+}
+
+.color4 {
+  color: #fca92a;
+}

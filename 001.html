@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link rel="stylesheet" type="text/css" href=""> -->
+  <title>D3</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Pacifico&display=swap');
+    
+    :root {
+      --main-font: 'Pacifico', cursive, 'Nanum Pen Script', cursive;
+    }
+
+    svg {
+      width: 500px;
+      height: 500px;
+      border: 1px solid gray;
+    }
+
+    text {
+      font-family: var(--main-font);
+    }
+   </style>
+</head>
+<body>
+  <svg width="1000px" height="500px">
+    <circle cy="100" cx="100" r="30"></circle>
+    <circle cy="150" cx="150" r="30"></circle>
+    <circle cy="200" cx="200" r="30"></circle>
+    <circle cy="300" cx="400" r="30"></circle>
+    <circle cy="500" cx="500" r="30"></circle>
+    <rect x="200" y="200" width="100" height="200" 
+    style="fill:blue; stroke:blanchedalmond; stroke-width: 10px;"></rect>
+    <rect x="300" y="200" width="100" height="200"></rect>
+    <text x="200" y="100">Hello World</text>
+  </svg>
+  <div class="canvas"></div>
+  <script>
+    const canvas = d3.select(".canvas");
+
+    const svg = canvas.append('svg')
+      .attr('width', 1000)
+      .attr('height', 1000);
+
+    svg.append('rect')
+      .attr('width', 100)
+      .attr('height', 100)
+      .attr('fill', 'hotpink');
+
+    svg.append('circle')
+      .attr('cx', 80)
+      .attr('cy', 80)
+      .attr('r', 50)
+      .attr('fill', 'blue');
+
+    svg.append('text')
+      .attr('x', 100)
+      .attr('y', 100)
+      .text('hello world')
+      .style('font-weight', 'bold')
+      .style('font-size', '34px');
+
+  </script>
+</body>
+</html>
