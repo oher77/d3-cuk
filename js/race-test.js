@@ -1,19 +1,17 @@
 d3.csv('data/data-race-test.csv')
-.then(function (data) {
-
-
-    const margin = ({top: 16, right: 6, bottom: 6, left: 0});
+  .then(function (data) {
+    const margin = ({ top: 16, right: 6, bottom: 6, left: 0 });
     const barSize = 48;
-    const n = 12;
+    const n = 5;
     const height = margin.top + barSize * n + margin.bottom;
-    const width  = 500;
+    const width = 1400;
     const x = d3.scaleLinear([0, 1], [margin.left, width - margin.right]);
     const y = d3.scaleBand()
-    .domain(d3.range(n + 1))
-    .rangeRound([margin.top, margin.top + barSize * (n + 1 + 0.1)])
-    .padding(0.1)
+      .domain(d3.range(n + 1))
+      .rangeRound([margin.top, margin.top + barSize * (n + 1 + 0.1)])
+      .padding(0.1)
 
-    const duration = 250;
+    const duration = 10;
 
     const names = new Set(data.map(d => d.name))
     const datevalues = Array.from(d3.rollup(data, ([d]) => d.value, d => d.date, d => d.name))
@@ -28,6 +26,7 @@ d3.csv('data/data-race-test.csv')
       for (let i = 0; i < data.length; ++i) data[i].rank = Math.min(n, i);
       return data;
     }
+    console.log(datevalues)
     const k = 10;
     const keyframes = [];
     let ka, a, kb, b;
@@ -46,6 +45,17 @@ d3.csv('data/data-race-test.csv')
     const prev = new Map(nameframes.flatMap(([, data]) => d3.pairs(data, (a, b) => [b, a])));
     const next = new Map(nameframes.flatMap(([, data]) => d3.pairs(data)));
 
+    //color 생성 함수
+    function color() {
+      const scale = d3.scaleOrdinal(d3.schemeTableau10);
+      if (data.some(d => d.category !== undefined)) {
+        const categoryByName = new Map(data.map(d => [d.name, d.category]))
+        scale.domain(categoryByName.values());
+        return d => scale(categoryByName.get(d.name));
+      }
+      return d => scale(d.name);
+    }
+
     //bars 생성 함수
     function bars(svg) {
       let bar = svg.append("g")
@@ -56,7 +66,7 @@ d3.csv('data/data-race-test.csv')
         .data(data.slice(0, n), d => d.name)
         .join(
           enter => enter.append("rect")
-            .attr("fill", color)
+            .attr("fill", color())
             .attr("height", y.bandwidth())
             .attr("x", x(0))
             .attr("y", d => y((prev.get(d) || d).rank))
@@ -144,49 +154,43 @@ d3.csv('data/data-race-test.csv')
       };
     }
 
-    function color() {
-      const scale = d3.scaleOrdinal(d3.schemeTableau10);
-      if (data.some(d => d.category !== undefined)) {
-        const categoryByName = new Map(data.map(d => [d.name, d.category]))
-        scale.domain(categoryByName.values());
-        return d => scale(categoryByName.get(d.name));
-      }
-      return d => scale(d.name);
-    }
+    async function* chart() {
+      const svg = d3.select('.canvas')
+        .append('svg')
+        .attr("viewBox", [0, 0, width, height]);
+      const updateBars = bars(svg);
+      const updateAxis = axis(svg);
+      const updateLabels = labels(svg);
+      const updateTicker = ticker(svg);
 
-    const svg = d3.select('.canvas')
-    .append('svg')
-    .attr("viewBox", [0, 0, width, height]);
-    const updateBars = bars(svg);
-    const updateAxis = axis(svg);
-    const updateLabels = labels(svg);
-    const updateTicker = ticker(svg);
-    async function* chart(d3, width, height, bars, axis, labels, ticker, keyframes, duration, x, invalidation) {
       
-      console.log(svg)
-
-      yield svg.node();
-
       for (const keyframe of keyframes) {
         const transition = svg.transition()
-          .duration(duration)
-          .ease(d3.easeLinear);
-
+        .duration(duration)
+        .ease(d3.easeLinear);
+        
         // Extract the top bar’s value.
         x.domain([0, keyframe[1][0].value]);
-
+        
         updateAxis(keyframe, transition);
         updateBars(keyframe, transition);
         updateLabels(keyframe, transition);
         updateTicker(keyframe, transition);
-
+        
         await transition.end();
+
       }
     }
 
     const gen = chart();
-
     gen.next();
+
+    console.log(keyframes)
+
+    const replay = d3.select('#replay')
+      .on("click", ()=> {
+        gen.next();
+      })
 
   })
   .catch(function (err) {
