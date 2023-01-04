@@ -21,7 +21,33 @@ p {
   color: #b2b2b2;
   word-break: keep-all;
 }
+h1 {
+  font-size: 1.5em;
+  color: #ddd;
+  text-align: center;
+  margin-bottom: 0.3em;
+  margin-top: 0.2em;
+}
 
+.top-menu-icon {
+  font-size: 0;
+  width: 31px;
+  height: 24px;
+  background-color: black;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='31px' height='24px' viewBox='0 0 31 24'%3E%3Crect style='fill:%237C7C7C;' width='31' height='4'/%3E%3Crect y='10' style='fill:%237C7C7C;' width='31' height='4'/%3E%3Crect y='20' style='fill:%237C7C7C;' width='31' height='4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  border: none;
+  margin-top: 8px;
+}
+
+.top-update-text {
+  font-size: 1em;
+  color: #7f7f7f;
+  width: 100%;
+  text-align: right;
+  display: inline-block;
+  margin-top: 0.4em;
+}
 h2 {
   font-size: 1.4em;
   color: white;
@@ -35,6 +61,7 @@ h2 {
 .gray-cell {
   background-color: #33373e;
   padding: 20px;
+  position: relative;
 }
 
 .color1 {
@@ -51,4 +78,17 @@ h2 {
 
 .color4 {
   color: #fca92a;
+}
+
+.replay {
+  font-size: 0;
+  width: 52px;
+  height: 46px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: #616466;
+  border: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52px' height='46px' viewBox='0 0 52 46'%3E%3Cpolygon style='fill:%23B2B2B2;' points='18,13.044 37,22.305 18,31.564 '/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
 }

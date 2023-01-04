@@ -1,17 +1,17 @@
 d3.csv('data/data-race-test.csv')
   .then(function (data) {
     const margin = ({ top: 16, right: 6, bottom: 6, left: 0 });
-    const barSize = 48;
+    const barSize = 32;
     const n = 5;
     const height = margin.top + barSize * n + margin.bottom;
-    const width = 1400;
+    const width = 550;
     const x = d3.scaleLinear([0, 1], [margin.left, width - margin.right]);
     const y = d3.scaleBand()
       .domain(d3.range(n + 1))
       .rangeRound([margin.top, margin.top + barSize * (n + 1 + 0.1)])
       .padding(0.1)
 
-    const duration = 10;
+    const duration = 100;
 
     const names = new Set(data.map(d => d.name))
     const datevalues = Array.from(d3.rollup(data, ([d]) => d.value, d => d.date, d => d.name))
@@ -26,7 +26,6 @@ d3.csv('data/data-race-test.csv')
       for (let i = 0; i < data.length; ++i) data[i].rank = Math.min(n, i);
       return data;
     }
-    console.log(datevalues)
     const k = 10;
     const keyframes = [];
     let ka, a, kb, b;
@@ -80,10 +79,10 @@ d3.csv('data/data-race-test.csv')
           .attr("y", d => y(d.rank))
           .attr("width", d => x(d.value) - x(0)));
     }
-    //레이블 생성 함수
+    //학과 레이블 생성 함수
     function labels(svg) {
       let label = svg.append("g")
-        .style("font", "bold 12px var(--sans-serif)")
+        .style("font-size", "12px")
         .style("font-variant-numeric", "tabular-nums")
         .attr("text-anchor", "end")
         .selectAll("text");
@@ -111,8 +110,8 @@ d3.csv('data/data-race-test.csv')
           .attr("transform", d => `translate(${x(d.value)},${y(d.rank)})`)
           .call(g => g.select("tspan").tween("text", d => textTween((prev.get(d) || d).value, d.value))));
     }
-    const formatNumber = d3.format(",d")
     //text tween 함수
+    const formatNumber = d3.format(",d")
     function textTween(a, b) {
       const i = d3.interpolateNumber(a, b);
       return function (t) {
@@ -137,12 +136,13 @@ d3.csv('data/data-race-test.csv')
         g.select(".domain").remove();
       };
     }
-    //ticker 생성함수
+    //년도 생성함수
     const formatDate = d3.utcFormat("%Y")
     function ticker(svg) {
       const now = svg.append("text")
         .style("font", `bold ${barSize}px var(--sans-serif)`)
         .style("font-variant-numeric", "tabular-nums")
+        .attr("fill", "white")
         .attr("text-anchor", "end")
         .attr("x", width - 6)
         .attr("y", margin.top + barSize * (n - 0.45))
@@ -154,7 +154,7 @@ d3.csv('data/data-race-test.csv')
       };
     }
 
-    const svg = d3.select('.canvas')
+    const svg = d3.select('#race2>.canvas')
       .append('svg')
       .attr("viewBox", [0, 0, width, height]);
     const updateBars = bars(svg);
@@ -183,8 +183,9 @@ d3.csv('data/data-race-test.csv')
 
     chart();
 
-    const replay = d3.select('#replay')
+    const replay = d3.select('#replay2')
       .on("click", chart)
+
   })
   .catch(function (err) {
     console.log('실패!')

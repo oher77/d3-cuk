@@ -16,7 +16,9 @@
 <body class="h-100">
   <div class="container-fluid h-100">
     <div class="row top">
-      test
+      <div class="col-4"><button class="top-menu-icon">top-menu-icon</button></div>
+      <div class="col-4"><h1>CUK 충원률 분석</h1></div>
+      <div class="col-4"><span class="top-update-text"> UPDATED 2023-03-25 09:15 (금)</span></div>
     </div>
     <div class="row gy-4 gx-4 p-4">
       <div class="col-xxl-3 col-lg-6">
@@ -36,13 +38,19 @@
         </div>
       </div>
       <div class="col-xxl-3 col-lg-6">
-        <div class="gray-cell">
-          <h2 class="color3">중도 탈락자 발생율</h2>
+        <div class="gray-cell d-flex flex-row" id="arc3">
+          <div class="flex-grow-1">
+            <h2 class="color3">중도 탈락자 발생율</h2>
+          </div>
+          <div class="canvas flex-grow-1"></div>
         </div>
       </div>
       <div class="col-xxl-3 col-lg-6">
-        <div class="gray-cell">
-          <h2 class="color4">휴학생 발생율</h2>
+        <div class="gray-cell d-flex flex-row" id="arc4">
+          <div class="flex-grow-1">
+            <h2 class="color4">휴학생 발생율</h2>
+          </div>
+          <div class="canvas flex-grow-1"></div>
         </div>
       </div>
       <div class="col-xl-8">
@@ -59,22 +67,36 @@
       </div>
       <div class="col-xl-4">
         <div class="gray-cell" id="race1">
+          <h2>신입생 충원율 TOP 5 </h2>
+          <button class="replay" id="replay">replay</button>
           <div class="canvas"></div>
         </div>
       </div>
       <div class="col-xl-4">
-        <div class="gray-cell">test</div>
+        <div class="gray-cell" id="race2">
+          <h2>재학생 충원율 TOP 5  </h2>
+          <button class="replay" id="replay2">replay</button>
+          <div class="canvas"></div>
+        </div>
       </div>
       <div class="col-xl-4">
-        <div class="gray-cell">test</div>
+        <div class="gray-cell" id="race3">
+          <h2>중도 탈락자 발생율 TOP 5  </h2>
+          <button class="replay" id="replay3">replay</button>
+          <div class="canvas"></div>
+        </div>
       </div>
     </div>
   </div>
   <script src="js/arc1.js"></script>
   <script src="js/arc2.js"></script>
+  <script src="js/arc3.js"></script>
+  <script src="js/arc4.js"></script>
   <script src="js/line1.js"></script>
   <script src="js/doughnut1.js"></script>
   <script src="js/race1.js"></script>
+  <script src="js/race2.js"></script>
+  <script src="js/race3.js"></script>
   <script>
     const color1 = '#dffb46';
     const color2 = '#32faeb';
